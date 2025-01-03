@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    <link rel="stylesheet" href="https://use.typekit.net/elg2qao.css">
+    <title>Projectly</title>
+</head>
+<body>
+    <section>
+    <a href="{% url 'login' %}"><div class="login">Login</div></a>
+    <a href="{% url 'register' %}"><div class="register">Register</div></a>
+    </section>
+</body>
+</html>
