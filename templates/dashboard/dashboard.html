@@ -4,4 +4,26 @@
 
 {% block content %}
 <a href="{% url "logout" %}"><div>Logout</div></a>
+{% if user.team_assigned == None %}
+<div class="#">You are not in any team :(</div>
+{% else %}
+<div class="#">You are in a team :)</div>
+{% endif %}
+
+{% if not project %}
+<div class="alert">You not have any project</div>
+<a href="{% url "create_project" %}">
+    <div>Create project</div>
+</a>
+{% else %}
+<div class="project">
+    <div class="title">Project: {{ project.title }}</div>
+    <div class="description">{{ project.description }}</div>
+    <div class="dates">
+        <span class="start-date">{{ project.start_date }}</span>
+        <span class="end-date">{{ project.end_date }}</span>
+    </div>
+</div>
+{% endif %}
+
 {% endblock content %}

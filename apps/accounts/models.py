@@ -40,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # Password is managed by AbstractBaseUser
+    team_assigned = models.IntegerField(null=True)
+    career = models.CharField(max_length=255, blank=True)
     role = models.CharField(
         max_length=50,
         choices=[
