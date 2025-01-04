@@ -3,7 +3,7 @@
 {% block title %}Create Project{% endblock title %}
 
 {% block content %}
-<form method="post">
+<form method="post" class="custom-form create-project-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Create</button>

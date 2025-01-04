@@ -1,0 +1,21 @@
+.custom-form,
+.custom-form p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-form > p > label {
+    padding: 0;
+    font-size: 8pt;
+    align-self: flex-start;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    padding: 5px 8px;
+    border: 0;
+    border-bottom: 2px solid #ced4da;
+    width: 100%;
+    margin: 0;
+}

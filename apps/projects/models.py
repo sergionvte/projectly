@@ -13,8 +13,8 @@ class Project(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     team_assigned = models.IntegerField(null=True)
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
     project_url = models.CharField(max_length=100, null=True)
 
     def __str__(self):

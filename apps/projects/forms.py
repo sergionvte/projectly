@@ -8,6 +8,7 @@ class ProjectCreationForm(forms.ModelForm):
         fields = [
             'title',
             'description',
+            'goal',
             'tutor',
             'start_date',
             'end_date',
@@ -16,9 +17,10 @@ class ProjectCreationForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'goal': forms.TextInput(attrs={'class': 'form-control'}),
             'tutor': forms.TextInput(attrs={'class': 'form-control'}),
-            'start_date': forms.TextInput(attrs={'class': 'form-control', 'type':'datetime-local'}),
-            'end_date': forms.TextInput(attrs={'class': 'form-control', 'type':'datetime-local'}),
+            'start_date': forms.TextInput(attrs={'class': 'form-control', 'type':'date'}),
+            'end_date': forms.TextInput(attrs={'class': 'form-control', 'type':'date'}),
             'project_url': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
