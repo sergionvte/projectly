@@ -40,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # Password is managed by AbstractBaseUser
-    team_assigned = models.IntegerField(null=True)
+    team_assigned = models.ForeignKey('Team', on_delete=models.CASCADE, null=True, blank=True)
     career = models.CharField(max_length=255, blank=True)
     role = models.CharField(
         max_length=50,
@@ -75,3 +75,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name or self.email
+
+
+from django.utils.crypto import get_random_string
+
+
+class Team(models.Model):
+    project_assigned = models.ForeignKey('projects.Project', on_delete=models.CASCADE, null=True)
+    members = models.ManyToManyField(User, related_name='teams', blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    team_code = models.CharField(max_length=10, unique=True, default=get_random_string(10).lower())
+
+    def __str__(self):
+        return self.name

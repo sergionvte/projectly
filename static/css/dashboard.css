@@ -1,12 +1,278 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
 
-.dates {
+main {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+section {
+    width: 100%;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+}
+
+.main-content {
+    height: calc(100% - 60px);
+}
+
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.project {
+    color: #000;
+    border-radius: 10px;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+}
+
+.text-element {
+    margin-top: 10px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid #f5c6cb;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.active,
+.inactive {
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.active {
+    background-color: #28a745;
+}
+
+.inactive {
+    background-color: #dc3545;
+}
+
+.project-link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    gap: 5px;
+}
+
+.project-link span {
+    color: #000;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 5px
+        /* justify-content: space-between; */
+}
+
+#download-btn {
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#download-btn:hover {
+    background-color: #0056b3;
+}
+
+.left-bar {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 60px);
+    min-width: 190px;
+    max-width: 200px;
+    gap: 10px;
     justify-content: space-between;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+    color: #000;
+    text-decoration: none;
+}
+
+.option:hover {
+    background-color: #dfa66a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 10px;
+}
+
+.user-panel span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.user {
+    align-self: center;
+}
+
+.logout {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.logout:hover {
+    background-color: #c82333;
+}
+
+
+
+.project {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.status.active {
+    background-color: #4caf50;
+}
+
+.status.inactive {
+    background-color: #f44336;
+}
+
+.text-element {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.description {
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.project-link {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #2196f3;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.project-link:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.dates span {
+    display: block;
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.links {
+    margin-top: 10px;
+}
+
+#project {
+    background-image: url('../img/background.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .left-bar {
+        display: none;
+    }
+
+    .main-content {
+        width: calc(100% - 60px);
+        height: auto;
+
+    }
+
 }
