@@ -64,6 +64,9 @@
             <span class="start-date">Start date: {{ project.start_date }}</span>
             <span class="end-date">Estimated end date: {{ project.end_date }}</span>
           </div>
+          {% if project.team_assigned %}
+            <span>ola</span>
+          {% endif %}
         </div>
 
         <a id="download-btn">Download card</a>

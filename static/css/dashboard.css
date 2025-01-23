@@ -52,7 +52,7 @@ section {
 .project {
     color: #000;
     border-radius: 10px;
-    border: 1px solid #f5c6cb;
+    /* border: 1px solid #f5c6cb; */
     padding: 10px;
 }
 
@@ -182,19 +182,6 @@ section {
     background-color: #c82333;
 }
 
-
-
-.project {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .title-container {
     display: flex;
     align-items: center;
@@ -207,57 +194,14 @@ section {
     border-radius: 50%;
 }
 
-.status.active {
-    background-color: #4caf50;
-}
+.status.active { background-color: #4caf50 }
 
-.status.inactive {
-    background-color: #f44336;
-}
+.status.inactive { background-color: #f44336 }
 
 .text-element {
     font-size: 1.2rem;
     font-weight: bold;
     margin-top: 10px;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.description {
-    margin-bottom: 10px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.project-link {
-    display: inline-block;
-    margin-right: 10px;
-    text-decoration: none;
-    color: #2196f3;
-    font-weight: bold;
-    padding: 5px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.project-link:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.dates span {
-    display: block;
-    margin: 5px 0;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.links {
-    margin-top: 10px;
-}
-
-#project {
-    background-image: url('../img/background.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 @media screen and (max-width: 768px) {
