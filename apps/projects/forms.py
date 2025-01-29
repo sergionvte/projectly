@@ -2,40 +2,27 @@ from django import forms
 from .models import Project
 
 # Create your views here.
-class ProjectCreationForm(forms.ModelForm):
+from django import forms
+from .models import Project
+
+class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = [
-            'title',
-            'description',
-            'goal',
-            'tutor',
-            'start_date',
-            'end_date',
-            'project_url',
-            'project_tiktok',
-            'project_instagram',
-        ]
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.TextInput(attrs={'class': 'form-control'}),
-            'goal': forms.TextInput(attrs={'class': 'form-control'}),
-            'tutor': forms.TextInput(attrs={'class': 'form-control'}),
-            'start_date': forms.TextInput(attrs={'class': 'form-control', 'type':'date'}),
-            'end_date': forms.TextInput(attrs={'class': 'form-control', 'type':'date'}),
-            'project_url': forms.TextInput(attrs={'class': 'form-control'}),
-            'project_tiktok': forms.TextInput(attrs={'class': 'form-control'}),
-            'project_instagram': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+        fields = ['title', 'goal', 'description', 'tutor', 'start_date', 'end_date']
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
+    def save(self, user, commit=True):
+        team = user.team_assigned  # Obtiene el equipo del usuario
+        if not team:
+            raise ValueError("No perteneces a un equipo.")
 
+        if team.project_assigned:
+            raise ValueError("Este equipo ya tiene un proyecto activo.")
 
-class ProjectJoinTeamForm(forms.ModelForm):
-    class Meta:
-        model = Project
-        fields = ['team_assigned']
-        widgets = {
-            'team_assigned': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+        project = super().save(commit=False)
+        project.created_by = user
+        project.team_assigned = team
+        if commit:
+            project.save()
+            team.project_assigned = project  # Asigna el proyecto al equipo
+            team.save()
+        return project

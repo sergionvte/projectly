@@ -1,13 +1,24 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from .forms import ProjectCreationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import ProjectForm
+from .models import Project
 
-class ProjectCreationView(CreateView):
-    template_name = 'projects/create_project.html'
-    form_class = ProjectCreationForm
-    success_url = reverse_lazy('dashboard')
+@login_required
+def create_project(request):
+    team = request.user.team_assigned
 
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        return super().form_valid(form)
+    if not team or team.created_by != request.user:
+        return redirect('dashboard')  # Solo el creador del equipo puede crear un proyecto
+
+    if team.project_assigned:
+        return redirect('dashboard')  # Evita que un equipo tenga más de un proyecto
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            form.save(request.user)
+            return redirect('dashboard')
+    else:
+        form = ProjectForm()
+
+    return render(request, 'projects/create_project.html', {'form': form})

@@ -12,7 +12,7 @@ class Project(models.Model):
     project_phase = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=datetime.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
-    team_assigned = models.IntegerField(null=True, blank=True)
+    team_assigned = models.OneToOneField('accounts.Team', on_delete=models.CASCADE, null=True, blank=True)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     project_url = models.CharField(max_length=100, null=True, blank=True)
@@ -40,17 +40,3 @@ class Task(models.Model):
     status = models.CharField(max_length=50)
     assigned_to = models.CharField(max_length=50)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
-
-class ProjectTeam(models.Model):
-    user_list = []
-
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.CharField(max_length=50)
-    role = models.CharField(max_length=50)
-
-    def add_teammate(self, user):
-        if len(self.user_list) < 4:
-            self.user_list.append(user)
-        else:
-            raise ValueError('The team is full.')

@@ -5,72 +5,38 @@
 {% endblock %}
 
 {% block content %}
-  <main>
-    <section class="left-bar">
-      <div class="options">
-        <a class="option" href="{% url 'dashboard' %}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABRklEQVRIS2NkoDFgpLH5DJRawAx04EUg/g/EBkD8F93BlFpQADSwH2poIZCeQE0LBIGGPQBiPqihn4C0AhC/R7aEEh9MARqUjebiqUB+DjUs0AIacgmIQXGADEBxoAfE12CC5PrgANAAe/TwhvIPAmkHSizwBmregsNwmLAPkLEVxCHHB1eB+kBBhA9cAUrqkmsByPUgX+ADG4CSgeRaQMBsVGlygohsC0DJDhxuOMB5oLgRkhwHkN0BxKAIlQHiJ0AMCpoqIP4FU4fsA1B5QgjA1LMAFZ4CYkMsGkDiVkAMLpfItQDkylY8rskHyk2ixIKzaMGFbtdxqC/I9sEXoAHceHwAKvj4aemDM0DDTSmxgFAclAEN76bEAjag5tNADCo50QHOVHQZqFIHT7ii5wMuoNouIPYEYmkgJpgP8JhNvhTNiwoA73w4GcQFWvYAAAAASUVORK5CYII=" /><span>Dashboard</span></a>
-        {% if user.team_assigned == None %}
-          <a class="option" href="{% url 'dashboard' %}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABq0lEQVRIS+2UPSiGURTH37cMBovyMYgiZDGYGAwGMfgoCykxCOUjpXwsFJvP5Q35SMqilEJJymAwMEkGWUSJASUkg/gd3ace3nvv4w5vGdz6dZ/n3HPu/znnOfeGQzEe4RjvH/rTAgNkPw1PtioEZdBFcAdkwCVMwiJUwhYcQzG8mERsAkMEDWsC+5TQEnMTzKiP0GqYBHLxPgPd+jv2THiAK0iAFHjUKZgEWnGes9S2mTXJYBOqoFqVLCrEJNCC57xFQNblX6xDDVTAtksG2TifW0qUw9otXEMiZMGFi4D4DsKIJqgf2xhIR/XAIRSZsg1qU2lRaVWvTcd5ltp3QkRt+swsnTXrmoHpo8SeBnVQC4XKcU3ZPvyBugzicWiDbpB2/Dmk1lOwAG/QCMsge/XChE0gncVdyLN9vlo7ZS6DG2iAFXgFKeedF+/PIA7jERT8YnPPZZ+HEvWyw1wOckeN6gTaMcrl5TrqCVgFOWwbcAByP30NfwYnvOe77o7/HpRCKsjZkPIk6wSkfvKDXcc9AUmmIH8G39rLUcV4noIOmqNOtPu/QGAJPwGDgkYZTGm2swAAAABJRU5ErkJggg==" /><span>Create a team</span></a>
-          <a class="option" href="{% url 'dashboard' %}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABDElEQVRIS2NkoDFgpLH5DKMWEAxhXEEkCtTZB8SeUBO2AOkiIH5H0EQ0Bdgs4AKquQjEKmhqrwL5RkD8ixRLsFkQATRgOQ5DAoDiGym1oBRoQBcOQ0qA4r1Y5P5DxTAcjM0HQUDFa3FYEAgU30CpBRxAAy4BsSqaQaB4sQDiH5RaANIPSkUTgBiUiv4B8SYgBgUPciqCBQuuKAGHDiU5mWwLQoAWZwKxE5rT9gL5U4F4PSVB1A0NClzeBok3AHEjmgKiUlEYUNNKfCYjybkD2buQ+ERZcB6owYBIC0CGgywhCJAj+SdQNRtBHRAFb4FYhBi1yBYQShXo5hGVAolSRIxLcakZtYBg6NE8iABZficZc91LwgAAAABJRU5ErkJggg==" /><span>Join to team</span></a>
-          <a class="option" href="{% url 'dashboard' %}"></a>
+<section class="pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        {% if user.team_assigned %}
+          <div class="alert alert-success" role="alert">
+            Eres parte del equipo: <strong>{{ user.team_assigned }}</strong>
+          </div>
         {% else %}
-          <a class="option" href="{% url 'dashboard' %}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABqklEQVRIS+2UyytFURSH78VUngPvrhgZYGCCEpmICRMhUSR/ApIMSEZmJmLikQw9hhIyIEzIFKE8pkqS8K3bPrdzV/vcPbqZ3F1f56zHXr+919lnh0NJHuEk1w+lBJwddrWoiAq90AFlUGAqvvB8gD1Yh7cgpSCBXCbMwCikO5b5TXwRpuBd59oEKkk6hkLn/uMT7jCbzc5iES0QIXIBear4K/YwnBl/A88VyFd5T9h1IPnR4RfIwD6HWktx8Unf/aME4wpylP8Qu8UmMIZzXiWL2Q8b0AWzJj7BcwdGYMkyZxDfqt7BLY5yS7J8C1m99Dhi4pJbAbKLR8ucS3zSqrgW3WBXJRCQQlJQhidQzLv0XQ9pXY0W6MGxaUkewLcG0qI5+IFx2IUhkI+tRyeObS2QhuME6lW2nIhq0D+T7OYaslX+AXar59PHNIvAPkT75xvyDeSYnoIspBGWQR/TI3zt8BEkIP5MkCugSYm4TGlZN3z6E4OuCrkepmHSrDhR8S+CcmwXbEmuy66USX3QBt5l98v7M9yDrHoLYn+uFnEJuNrijKcE/r9Ff6QIRxmwPWVYAAAAAElFTkSuQmCC" /><span>View team</span></a>
+          <div class="alert alert-warning" role="alert">
+            No perteneces a ningún equipo.
+            <a href="{% url 'create_team' %}">Crear un equipo</a> o
+            <a href="{% url 'join_team' %}">Unirse a un equipo</a>.
+          </div>
+        {% endif %}
+
+        <h1>Dashboard</h1>
+        <p>Bienvenido al panel de control.</p>
+
+        {% if user.team_assigned %}
+          {% if user.team_assigned.project_assigned %}
+            <div class="alert alert-info" role="alert">
+              Proyecto asignado: <strong>{{ user.team_assigned.project_assigned.title }}</strong>
+            </div>
+          {% elif user == user.team_assigned.created_by %}
+            <a href="{% url 'create_project' %}" class="btn btn-primary">Crear Proyecto</a>
+          {% else %}
+            <p>Esperando a que el creador del equipo cree un proyecto.</p>
+          {% endif %}
         {% endif %}
       </div>
-      <div class="user-panel">
-        <span class="user"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACmElEQVRIS7WVWaiPQRTA75VIQvYl5SZZixLZsr6QKEsUEdlKJEWSKJHIGkVEJEqWQhJPKEuRrWSLh/tA9rLkwe730/k09/NfvNypX2e+mTNzzpk5c77KilpulbW8f0U5A/VxYDyMhl5QBb+gGu7CWTgF34o5WsrAKBbthI5lonzC/Dy4VEivmIFVKK+JBW+Qh+BMeF0X2QPGwXRoHlEtQW7LGylkYCVKa+E7bIF18KlIFI0ZXw2Lwb0WwK5UN29gJJPn4SsMhFuh3B65BwbF91Wkx/I8vocgL4SRAcgbmZHUQB0GH0AXmAv7Qqkd0gttmYvCo/PiX8T4cuR6uJY4UiOLJjJxAh6BZ/wzFh5FTo45N9GpDaD+EZgaeg2Q1dAqDGiohoGTfHtxXtbWxNt39JtFBG9j3Kg8Hr23n7XNsd7sW5g34AKVu8LjZNFL+q2hDbzKGfDyveisDafjXdyB3nkDXxioF6QP5xhjk+AgzIqd7E+D02DUWWtBx7t5D03zBhxsEh6ladmWsdsRQbLXn+MZCj60rBnNh2IGzBSzoifcS3ei3xCWwYwkgo30P+f0PBZTW/rkIzjAwExYCj6wtPXjoy94BDYv21z/m+8xvgLpw9wLvpMaWWTtOQdecHcwTbuB2eXbKNTuM+gdPAVLiLIDjICLeQOpwmwmj8cC8/pjfD8LK1XICdAIHOsMc2BHOKhjVt1/yrWl4DKYUXo+BR7CMHgdm2fCtFW3ExwGM00n+8PNTKlQsVvE5PZkM+uMGxVqWe3K5ox8f6pYrFxnl6Wu9Wl3GDElfSue82CYDx6HzSzblPei1A/HUC0ZVsdS7QqTZt71QkrlfpmuGQNjwcyyCP6IqLwbf5eW96LtfwyUCaD0dK0b+A3To4cZadbU5wAAAABJRU5ErkJggg==" />{{ user.username }}</span>
-        <a class="option logout" href="{% url 'logout' %}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABwUlEQVRIS9WVzSsFURiHZxY+SkqKECtJKBZyuxZEUTaWLGxs7u0qO+EvsKFkpdyykLKxsL8LCzslFj6zISxESBYWSuN564zGnY9zru4UU09zZ87vfX/nfc89Z2wr5suOOb/1Nwwcx0lQ6Rj0QZuq+oL7Hmzbtn0Y1onICkjcQuA69GtamWM8jdFdvi7UgORNiGVmNfAMK3AARypJN3epbAaq4B6GMTnzmugqWEDcDikCX4KqYCK1qspR7o+QRHvtaou2yBhtkHQSchiMRBogLkWwijCt6f33MDFlPFxBA3QSeyKDvgoQ1vN+R5VaUIXEzhG3BMsYzPoMECRVcjGxEBVqIOsli3xMaNcPA5KnpC0g7TG+vJMgRyWBb/DO+4o4DEpI+hFoIG5FaJHs8nOBCjriWOR5ki5CFoOpQANVyW/+puXEygargyEMdkMNjFfYI6S9WzxOwD7Je90hk6OiGvE0QU6QMYklRxZkUz5AAu2t1oDARkRysMlhJ0fzGmwS/KraKMZyNGSgFZ5gkPFT70R0FTQjluN6QNM2Oa4zJL/J1xntVKrpIXAc3A/OJ78vwf3guEe4bx5GBprZRw7/f4MvR92aGT0wrUMAAAAASUVORK5CYII=" /><span>Logout</span></a>
-      </div>
-    </section>
-    <section class="main-content">
-      {% if user.team_assigned == None %}
-        <div class="alert">You’re not part of a team yet! Create a new team or join an existing one to collaborate and achieve your goals together.</div>
-      {% endif %}
-
-      {% if not project %}
-        <div class="alert">
-          You don't have any project. Click <a class="link" href="{% url 'create_project' %}">here</a> to create a new project.
-        </div>
-      {% else %}
-        <div class="project" id="project">
-          <h3 class="text-element">Project:</h3>
-          <div class="title-container">
-            <h2 class="title">{{ project.title }}</h2>
-            {% if project.is_active %}
-              <div class="status active"></div>
-            {% else %}
-              <div class="status inactive"></div>
-            {% endif %}
-          </div>
-          <h3 class="text-element">Description:</h3>
-          <p class="description">{{ project.description }}</p>
-          <h3 class="text-element">Objective:</h3>
-          <p>{{ project.goal }}</p>
-          {% if project.project_url or project.project_tiktok or project.project_instagram %}
-            <h3 class="text-element">Urls:</h3>
-            <div class="links">
-              {% if project.project_url %}
-                <a class="project-link" href="{{ project.project_url }}" target="_blank">Website</a>
-              {% endif %}
-              {% if project.project_tiktok %}
-                <a class="project-link" href="{{ project.project_tiktok }}" target="_blank">TikTok</a>
-              {% endif %}
-              {% if project.project_instagram %}
-                <a class="project-link" href="{{ project.project_instagram }}" target="_blank">Instagram</a>
-              {% endif %}
-            </div>
-          {% endif %}
-          <div class="dates">
-            <span class="start-date">Start date: {{ project.start_date }}</span>
-            <span class="end-date">Estimated end date: {{ project.end_date }}</span>
-          </div>
-          {% if project.team_assigned %}
-            <span>ola</span>
-          {% endif %}
-        </div>
-
-        <a id="download-btn">Download card</a>
-      {% endif %}
-    </section>
-  </main>
+    </div>
+  </div>
+</section>
 {% endblock %}

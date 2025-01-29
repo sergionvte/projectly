@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.utils.crypto import get_random_string
 
 
 class UserManager(BaseUserManager):
@@ -77,14 +78,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name or self.email
 
 
-from django.utils.crypto import get_random_string
-
-
 class Team(models.Model):
-    project_assigned = models.ForeignKey('projects.Project', on_delete=models.CASCADE, null=True)
+    project_assigned = models.OneToOneField('projects.Project', on_delete=models.CASCADE, null=True, blank=True)
     members = models.ManyToManyField(User, related_name='teams', blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     team_code = models.CharField(max_length=10, unique=True, default=get_random_string(10).lower())
+    created_by = models.OneToOneField(User, on_delete=models.CASCADE, related_name='created_team', null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.created_by and self.created_by not in self.members.all():
+            self.members.add(self.created_by)
+
 
     def __str__(self):
-        return self.name
+        return f"{self.team_code}"

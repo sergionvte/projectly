@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Detalles del Equipo
+{% endblock %}
+
+{% block content %}
+<section class="pt-5">
+  <div class="container">
+    <h1>Detalles del Equipo</h1>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Código del equipo: <strong>{{ team.team_code }}</strong></h5>
+        <p><strong>Creado por:</strong> {{ team.created_by.username }}</p>
+        {% if team.project_assigned %}
+          <p><strong>Proyecto Asignado:</strong> {{ team.project_assigned.title }}</p>
+        {% else %}
+          <p><strong>Proyecto:</strong> Aún no se ha asignado un proyecto.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <h3 class="mt-4">Miembros del Equipo</h3>
+    <ul class="list-group">
+      {% for member in members %}
+        <li class="list-group-item">{{ member.username }}</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+  </div>
+</section>
+{% endblock %}
