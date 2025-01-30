@@ -3,10 +3,63 @@
 {% block title %}Register{% endblock title %}
 
 {% block content %}
-<h2>Register</h2>
-<form method="post" class="auth-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h2 class="text-center mb-4">Crear una cuenta</h2>
+
+          <!-- Mensajes de Error o Éxito -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" class="auth-form shadow-sm p-4 rounded">
+            {% csrf_token %}
+            <!-- Campo de Nombre -->
+            <div class="mb-3">
+                {{ form.first_name }}
+            </div>
+
+            <!-- Campo de Apellido -->
+            <div class="mb-3">
+                {{ form.last_name }}
+            </div>
+
+            <!-- Campo de nombre de usuario -->
+            <div class="mb-3">
+              {{ form.username }}
+            </div>
+
+            <!-- Campo de correo electrónico -->
+            <div class="mb-3">
+              {{ form.email }}
+            </div>
+
+            <!-- Campo de contraseña -->
+            <div class="mb-3">
+              {{ form.password1 }}
+            </div>
+
+            <!-- Confirmación de contraseña -->
+            <div class="mb-3">
+              {{ form.password2 }}
+            </div>
+
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">Registrar</button>
+            </div>
+
+            <div class="text-center">
+              <p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

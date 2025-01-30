@@ -24,7 +24,8 @@ urlpatterns = [
     path('', include('apps.accounts.urls')),
     path('', include('apps.landing.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
-    path('projects/', include('apps.projects.urls'))
+    path('projects/', include('apps.projects.urls')),
+    path('', include('apps.chat.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,42 +1,41 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}
-  Dashboard
-{% endblock %}
+{% block title %}Dashboard{% endblock title %}
 
 {% block content %}
-<section class="pt-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        {% if user.team_assigned %}
-          <div class="alert alert-success" role="alert">
-            Eres parte del equipo: <strong>{{ user.team_assigned }}</strong>
-          </div>
-        {% else %}
-          <div class="alert alert-warning" role="alert">
-            No perteneces a ningún equipo.
-            <a href="{% url 'create_team' %}">Crear un equipo</a> o
-            <a href="{% url 'join_team' %}">Unirse a un equipo</a>.
-          </div>
-        {% endif %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4" style="max-width: 600px; width: 100%;">
+        <!-- Encabezado -->
+        <div class="text-center mb-3">
+            <h2>Hola de nuevo, {{ user.first_name }} 👋</h2>
+            <p class="text-muted">Aquí tienes un resumen de tu equipo y proyecto.</p>
+        </div>
 
-        <h1>Dashboard</h1>
-        <p>Bienvenido al panel de control.</p>
+        <!-- Información del Equipo -->
+        <div class="border-bottom pb-3">
+            <h5 class="text-primary">🏆 Tu equipo</h5>
+            {% if user.team_assigned %}
+                <p><strong>Equipo </strong> {{ user.team_assigned.id }}</p>
+                <p><strong>Integrantes:</strong> {{ user.team_assigned.members.count }}</p>
+                <a href="{% url 'team_detail' user.team_assigned.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+            {% else %}
+                <p class="text-muted">Aún no perteneces a un equipo.</p>
+                <a href="{% url 'join_team' %}" class="btn btn-secondary btn-sm">Unirse a un equipo</a>
+            {% endif %}
+        </div>
 
-        {% if user.team_assigned %}
-          {% if user.team_assigned.project_assigned %}
-            <div class="alert alert-info" role="alert">
-              Proyecto asignado: <strong>{{ user.team_assigned.project_assigned.title }}</strong>
-            </div>
-          {% elif user == user.team_assigned.created_by %}
-            <a href="{% url 'create_project' %}" class="btn btn-primary">Crear Proyecto</a>
-          {% else %}
-            <p>Esperando a que el creador del equipo cree un proyecto.</p>
-          {% endif %}
-        {% endif %}
-      </div>
+        <!-- Información del Proyecto -->
+        <div class="pt-3">
+            <h5 class="text-success">📌 Proyecto asignado</h5>
+            {% if user.team_assigned and user.team_assigned.project %}
+                <p><strong>Título:</strong> {{ user.team_assigned.project.title }}</p>
+                <p><strong>Fase:</strong> {{ user.team_assigned.project.project_phase }}</p>
+                <p><strong>Fecha límite:</strong> {{ user.team_assigned.project.end_date|default:"Sin definir" }}</p>
+                <a href="{% url 'project_detail' user.team_assigned.project.id %}" class="btn btn-outline-success btn-sm">Ver detalles</a>
+            {% else %}
+                <p class="text-muted">Aún no tienes un proyecto asignado.</p>
+            {% endif %}
+        </div>
     </div>
-  </div>
-</section>
+</div>
 {% endblock %}

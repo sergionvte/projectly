@@ -83,14 +83,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import Team
 
 @login_required
-def team_detail(request):
+def team_detail(request, id):
     if not request.user.team_assigned:
         return redirect('dashboard')  # Si el usuario no tiene equipo, redirigir al dashboard
 
-    team = request.user.team_assigned  # Obtener el equipo del usuario
-    members = team.members.all()  # Obtener los miembros del equipo
-
-    return render(request, 'accounts/team_detail.html', {
-        'team': team,
-        'members': members
-    })
+    team = get_object_or_404(Team, id=id)  # Busca por ID en lugar de team_code
+    return render(request, 'accounts/team_detail.html', {'team': team})

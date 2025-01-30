@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 p-4">
+        <h2 class="text-center text-primary">💬 Chat del Equipo</h2>
+        <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: auto;">
+            {% for message in messages %}
+                <div class="d-flex {% if message.sender == request.user %}justify-content-end{% else %}justify-content-start{% endif %}">
+                    <div class="p-2 mt-2 rounded {% if message.sender == request.user %}bg-primary text-white{% else %}bg-light{% endif %}">
+                        <strong>{{ message.sender.username }}</strong>
+                        <p class="mb-1">{{ message.content }}</p>
+                        <small class="text-muted">{{ message.timestamp }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <form id="chat-form">
+            <input type="text" id="chat-message" class="form-control mb-2" placeholder="Escribe un mensaje...">
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const teamId = "{{ team.id }}";
+    const userId = "{{ request.user.id }}";
+    const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/${teamId}/`);
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatBox = document.getElementById("chat-box");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "d-flex " + (data.sender === "{{ request.user.username }}" ? "justify-content-end" : "justify-content-start");
+        messageDiv.innerHTML = `
+            <div class="p-2 mt-2 rounded ${data.sender === "{{ request.user.username }}" ? "bg-primary text-white" : "bg-light"}">
+                <strong>${data.sender}</strong>
+                <p class="mb-1">${data.content}</p>
+                <small class="text-muted">${data.timestamp}</small>
+            </div>
+        `;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+    document.getElementById("chat-form").onsubmit = function(e) {
+        e.preventDefault();
+        const messageInput = document.getElementById("chat-message");
+        const message = messageInput.value.trim();
+        if (message) {
+            chatSocket.send(JSON.stringify({ sender: userId, content: message }));
+            messageInput.value = "";
+        }
+    };
+
+    function scrollToBottom() {
+        var chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    scrollToBottom();
+</script>
+{% endblock %}

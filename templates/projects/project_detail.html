@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles del Proyecto{% endblock title %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4" style="max-width: 700px; width: 100%;">
+        <h2 class="text-center text-success">📌 Proyecto: {{ project.title }}</h2>
+        <p class="text-center text-muted">Dirigido por <strong>{{ project.tutor }}</strong></p>
+
+        <!-- Información del Proyecto -->
+        <div class="border-bottom pb-3">
+            <h5 class="text-secondary">🎯 Objetivo</h5>
+            <p>{{ project.goal }}</p>
+        </div>
+
+        <div class="border-bottom pb-3 pt-3">
+            <h5 class="text-secondary">📖 Descripción</h5>
+            <p>{{ project.description }}</p>
+        </div>
+
+        <div class="border-bottom pb-3 pt-3">
+            <h5 class="text-secondary">📅 Fechas</h5>
+            <p><strong>Inicio:</strong> {{ project.start_date|default:"Sin definir" }}</p>
+            <p><strong>Entrega:</strong> {{ project.end_date|default:"Sin definir" }}</p>
+        </div>
+
+        <div class="border-bottom pb-3 pt-3">
+            <h5 class="text-secondary">🚀 Estado</h5>
+            <p><strong>Fase:</strong> {{ project.project_phase }}</p>
+            {% if project.is_active %}
+                <span class="badge bg-success">Activo</span>
+            {% else %}
+                <span class="badge bg-danger">Inactivo</span>
+            {% endif %}
+        </div>
+
+        <!-- Redes sociales (si las tiene) -->
+        {% if project.project_url or project.project_tiktok or project.project_instagram %}
+            <div class="border-bottom pb-3 pt-3">
+                <h5 class="text-secondary">🔗 Enlaces</h5>
+                {% if project.project_url %}
+                    <p><a href="{{ project.project_url }}" target="_blank">🌐 Página Web</a></p>
+                {% endif %}
+                {% if project.project_tiktok %}
+                    <p><a href="{{ project.project_tiktok }}" target="_blank">🎵 TikTok</a></p>
+                {% endif %}
+                {% if project.project_instagram %}
+                    <p><a href="{{ project.project_instagram }}" target="_blank">📸 Instagram</a></p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <!-- Botones -->
+        <div class="mt-3 text-center">
+            <button id="download-project" class="btn btn-outline-success btn-sm">Descargar resumen</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">Volver</a>
+        </div>
+    </div>
+</div>
+
+<!-- Script para descargar como imagen -->
+<script>
+    document.getElementById('download-project').addEventListener('click', function() {
+        html2canvas(document.querySelector(".card")).then(canvas => {
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL("image/png");
+            link.download = "proyecto_{{ project.title }}.png";
+            link.click();
+        });
+    });
+</script>
+{% endblock %}

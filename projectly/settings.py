@@ -35,13 +35,24 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
+    'channels',
     'apps.landing',
     'apps.accounts',
     'apps.dashboard',
     'apps.projects',
+    'apps.chat',
 
 ]
+
+ASGI_APPLICATION = 'projectly.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

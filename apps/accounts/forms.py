@@ -15,8 +15,12 @@ class RegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'].widget.attrs.update({'class': 'auth-form-control', 'placeholder': 'Password'})
-        self.fields['password2'].widget.attrs.update({'class': 'auth-form-control', 'placeholder': 'Confirm Password'})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'First name'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Last'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Username'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirm Password'})
 
         self.fields['first_name'].label = ''
         self.fields['last_name'].label = ''
@@ -28,11 +32,11 @@ class RegistrationForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'auth-form-control', 'placeholder': 'Email', 'autofocus': True}),
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'autofocus': True}),
         label='Email'
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'auth-form-control', 'placeholder': 'Password'}),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
         label='Contraseña'
     )
 

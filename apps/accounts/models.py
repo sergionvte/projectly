@@ -79,17 +79,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Team(models.Model):
-    project_assigned = models.OneToOneField('projects.Project', on_delete=models.CASCADE, null=True, blank=True)
+    id = models.AutoField(primary_key=True)  # Se genera automáticamente, pero lo hacemos explícito
+    project_assigned = models.ForeignKey('projects.Project', on_delete=models.CASCADE, null=True)
     members = models.ManyToManyField(User, related_name='teams', blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     team_code = models.CharField(max_length=10, unique=True, default=get_random_string(10).lower())
-    created_by = models.OneToOneField(User, on_delete=models.CASCADE, related_name='created_team', null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_teams', null=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.created_by and self.created_by not in self.members.all():
-            self.members.add(self.created_by)
-
+            self.members.add(self.created_by)  # Agrega automáticamente al creador
 
     def __str__(self):
-        return f"{self.team_code}"
+        return f"Team {self.id}"

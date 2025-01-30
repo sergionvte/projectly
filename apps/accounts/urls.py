@@ -9,5 +9,5 @@ urlpatterns = [
     # Teams
     path('team/create/', create_team, name='create_team'),
     path('team/join/', join_team, name='join_team'),
-    path('team/details/', team_detail, name='team_detail'),
+    path('team/<int:id>/', team_detail, name='team_detail'),  # Ahora usa el ID
 ]
