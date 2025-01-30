@@ -11,7 +11,7 @@
                     <div class="p-2 mt-2 rounded {% if message.sender == request.user %}bg-primary text-white{% else %}bg-light{% endif %}">
                         <strong>{{ message.sender.username }}</strong>
                         <p class="mb-1">{{ message.content }}</p>
-                        <small class="text-muted">{{ message.timestamp }}</small>
+                        <small class="text-muted">{{ message.timestamp|date:"H:i" }}</small>
                     </div>
                 </div>
             {% endfor %}

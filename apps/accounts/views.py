@@ -80,7 +80,7 @@ def join_team(request):
 
 
 from django.shortcuts import render, get_object_or_404
-from .models import Team
+from .models import Team, User
 
 @login_required
 def team_detail(request, id):
@@ -89,3 +89,23 @@ def team_detail(request, id):
 
     team = get_object_or_404(Team, id=id)  # Busca por ID en lugar de team_code
     return render(request, 'accounts/team_detail.html', {'team': team})
+
+
+def remove_member(request, team_id, member_id):
+    team = get_object_or_404(Team, id=team_id)
+    member = get_object_or_404(User, id=member_id)
+
+    # Asegúrate de que el usuario logueado sea el líder del equipo
+    if team.created_by == request.user:
+        if member in team.members.all():
+            team.members.remove(member)  # Elimina al miembro del equipo
+            member.team_assigned = None  # Elimina el equipo asignado al miembro
+            member.save(update_fields=['team_assigned'])  # Guarda el cambio en el miembro
+            messages.success(request, f"El miembro {member.first_name} {member.last_name} ha sido eliminado exitosamente.")
+
+        else:
+            messages.error(request, "Este miembro no pertenece a este equipo.")
+    else:
+        messages.error(request, "Solo el líder del equipo puede eliminar miembros.")
+
+    return redirect('team_detail', team_id)
