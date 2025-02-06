@@ -3,46 +3,54 @@
 {% block title %}Detalles del Equipo{% endblock title %}
 
 {% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert m-3 {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 <div class="container mt-5 d-flex justify-content-center">
-    <div class="card shadow-lg border-0 p-4" style="max-width: 700px; width: 100%;">
-        <h2 class="text-center text-primary">👥 Equipo: {{ team.id }}</h2>
-        <p class="text-center text-muted">Código de equipo: <strong>{{ team.team_code }}</strong></p>
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 700px; width: 100%;">
+        <h2 class="text-center text-primary mb-4">👥 Equipo: {{ team.id }}</h2>
+        <p class="text-center text-muted mb-4">Código de equipo: <strong>{{ team.team_code }}</strong></p>
 
         <!-- Información del equipo -->
-        <div class="border-bottom pb-3">
+        <div class="border-bottom pb-3 mb-3">
             <h5 class="text-secondary">👑 Líder</h5>
             <p><strong>{{ team.created_by }}</strong></p>
         </div>
 
-        <div class="border-bottom pb-3 pt-3">
+        <div class="border-bottom pb-3 pt-3 mb-3">
             <h5 class="text-secondary">📆 Creado el</h5>
             <p>{{ team.date_created|date:"F d, Y" }}</p>
         </div>
 
-        <div class="border-bottom pb-3 pt-3">
+        <div class="border-bottom pb-3 pt-3 mb-3">
             <h5 class="text-secondary">🔹 Miembros</h5>
             <ul class="list-group">
-    {% for member in team.members.all %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ member.first_name }} {{ member.last_name }}
-            {% if member == team.creator %}
-                <span class="badge bg-success">Líder</span>
-            {% else %}
-                <form action="{% url 'remove_member' team.id member.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                </form>
-            {% endif %}
-        </li>
-    {% empty %}
-        <li class="list-group-item text-muted">No hay miembros en este equipo.</li>
-    {% endfor %}
-</ul>
-
+                {% for member in team.members.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ member.first_name }} {{ member.last_name }}
+                        {% if member == team.created_by %}
+                            <span class="badge bg-success">Líder</span>
+                        {% else %}
+                            <form action="{% url 'remove_member' team.id member.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">No hay miembros en este equipo.</li>
+                {% endfor %}
+            </ul>
         </div>
 
         {% if team.project %}
-            <div class="border-bottom pb-3 pt-3">
+            <div class="border-bottom pb-3 pt-3 mb-3">
                 <h5 class="text-secondary">📌 Proyecto Asignado</h5>
                 <p><a href="{% url 'project_detail' team.project.id %}" class="btn btn-outline-primary btn-sm">Ver Proyecto</a></p>
             </div>
@@ -50,28 +58,19 @@
 
         <!-- Botones -->
         <div class="mt-3 text-center">
-            <button id="download-team" class="btn btn-outline-primary btn-sm">Descargar resumen</button>
-            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">Volver</a>
+            <button id="download-team" class="btn btn-outline-primary btn-sm mb-2">Descargar resumen</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm mb-2">Volver</a>
         </div>
     </div>
 </div>
 
-{% if messages %}
-        {% for message in messages %}
-        {% if message.tags == 'error' %}
-            <div class="alert alert-danger">{{ message }}</div>
-        {% else %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endif %}
-        {% endfor %}
-{% endif %}
 <!-- Script para descargar como imagen -->
 <script>
     document.getElementById('download-team').addEventListener('click', function() {
         html2canvas(document.querySelector(".card")).then(canvas => {
             let link = document.createElement('a');
             link.href = canvas.toDataURL("image/png");
-            link.download = "equipo_{{ team.name }}.png";
+            link.download = "equipo_{{ team.team_code }}.png";
             link.click();
         });
     });

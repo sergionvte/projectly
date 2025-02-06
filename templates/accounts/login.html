@@ -1,41 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
-  <section class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <h2 class="text-center mb-4">Iniciar sesión</h2>
+  <section class="py-5" style="background: linear-gradient(135deg, #6a11cb, #2575fc); min-height: 100vh;">
+    <div class="container d-flex justify-content-center align-items-center">
+      <div class="col-md-5 bg-white shadow-lg rounded-4 p-4">
+        <h2 class="text-center fw-bold mb-3">Iniciar sesión</h2>
 
-          <!-- Mensajes de Error o Éxito -->
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
 
-          <form method="post" class="auth-form shadow-sm p-4 rounded">
-            {% csrf_token %}
-            <div class="mb-3">
-              {{ form.username }}
-            </div>
-            <div class="mb-3">
-              {{ form.password }}
-            </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.username }}
+          </div>
+          <div class="mb-3">
+            {{ form.password }}
+          </div>
 
-            <div class="mb-3">
-              <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
-            </div>
+          <button type="submit" class="btn btn-custom w-100 py-2 rounded-3">Acceder</button>
 
-            <div class="text-center">
-              <p>¿No tienes una cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
-            </div>
-          </form>
-        </div>
+          <div class="text-center mt-3">
+            <p class="mb-0">¿No tienes cuenta? <a href="{% url 'register' %}" class="text-primary">Regístrate</a></p>
+          </div>
+        </form>
       </div>
     </div>
   </section>

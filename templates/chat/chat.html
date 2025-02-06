@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 p-4">
-        <h2 class="text-center text-primary">💬 Chat del Equipo</h2>
-        <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: auto;">
+    <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 800px; width: 100%; background-color: #ffffff;">
+        <h2 class="text-center text-primary mb-4">💬 Chat del Equipo</h2>
+        <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: auto; background-color: #f7f7f7; border-radius: 10px;">
             {% for message in messages %}
                 <div class="d-flex {% if message.sender == request.user %}justify-content-end{% else %}justify-content-start{% endif %}">
-                    <div class="p-2 mt-2 rounded {% if message.sender == request.user %}bg-primary text-white{% else %}bg-light{% endif %}">
+                    <div class="p-3 mt-2 mb-2 rounded-3 {% if message.sender == request.user %}bg-primary text-white shadow-sm{% else %}bg-light text-dark shadow-sm{% endif %}" style="max-width: 70%; transition: all 0.3s ease;">
                         <strong>{{ message.sender.username }}</strong>
                         <p class="mb-1">{{ message.content }}</p>
                         <small class="text-muted">{{ message.timestamp|date:"H:i" }}</small>
@@ -16,9 +16,11 @@
                 </div>
             {% endfor %}
         </div>
-        <form id="chat-form">
-            <input type="text" id="chat-message" class="form-control mb-2" placeholder="Escribe un mensaje...">
-            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+        <form id="chat-form" class="mt-3">
+            <div class="input-group">
+                <input type="text" id="chat-message" class="form-control" placeholder="Escribe un mensaje..." aria-label="Mensaje">
+                <button type="submit" class="btn btn-primary input-group-append" style="transition: background-color 0.3s ease; font-weight: bold;">Enviar</button>
+            </div>
         </form>
     </div>
 </div>
@@ -34,10 +36,10 @@
         const messageDiv = document.createElement("div");
         messageDiv.className = "d-flex " + (data.sender === "{{ request.user.username }}" ? "justify-content-end" : "justify-content-start");
         messageDiv.innerHTML = `
-            <div class="p-2 mt-2 rounded ${data.sender === "{{ request.user.username }}" ? "bg-primary text-white" : "bg-light"}">
-                <strong>${data.sender}</strong>
-                <p class="mb-1">${data.content}</p>
-                <small class="text-muted">${data.timestamp}</small>
+            <div class="p-3 mt-2 mb-2 rounded-3 ${data.sender === "{{ request.user.username }}" ? "bg-primary text-white shadow-sm" : "bg-light text-dark shadow-sm"}" style="max-width: 75%; transition: all 0.3s ease;">
+                <strong class="text-capitalize" style="font-size: 0.9rem;">${data.sender}</strong>
+                <p class="mb-1" style="font-size: 0.95rem; line-height: 1.4;">${data.content}</p>
+                <small class="text-muted" style="font-size: 0.8rem;">${data.timestamp}</small>
             </div>
         `;
         chatBox.appendChild(messageDiv);

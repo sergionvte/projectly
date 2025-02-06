@@ -39,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     username = models.CharField(max_length=255, unique=True)
+    is_tutor = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # Password is managed by AbstractBaseUser
     team_assigned = models.ForeignKey('Team', on_delete=models.CASCADE, null=True, blank=True)

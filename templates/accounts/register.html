@@ -1,64 +1,56 @@
 {% extends "base.html" %}
 
-{% block title %}Register{% endblock title %}
+{% block title %}Registro{% endblock %}
 
 {% block content %}
-  <section class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <h2 class="text-center mb-4">Crear una cuenta</h2>
+  <section class="py-5" style="background: linear-gradient(135deg, #ff6f61, #ff9966); min-height: 100vh;">
+    <div class="container d-flex justify-content-center align-items-center">
+      <div class="col-md-6 bg-white shadow-lg rounded-4 p-4">
+        <h2 class="text-center fw-bold mb-3">Crear cuenta</h2>
 
-          <!-- Mensajes de Error o Éxito -->
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
-
-          <form method="post" class="auth-form shadow-sm p-4 rounded">
-            {% csrf_token %}
-            <!-- Campo de Nombre -->
-            <div class="mb-3">
-                {{ form.first_name }}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center">
+              {{ message }}
             </div>
+          {% endfor %}
+        {% endif %}
 
-            <!-- Campo de Apellido -->
-            <div class="mb-3">
-                {{ form.last_name }}
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              {{ form.first_name }}
             </div>
-
-            <!-- Campo de nombre de usuario -->
-            <div class="mb-3">
-              {{ form.username }}
+            <div class="col-md-6 mb-3">
+              {{ form.last_name }}
             </div>
+          </div>
 
-            <!-- Campo de correo electrónico -->
-            <div class="mb-3">
-              {{ form.email }}
-            </div>
+          <div class="mb-3">
+            {{ form.username }}
+          </div>
 
-            <!-- Campo de contraseña -->
-            <div class="mb-3">
+          <div class="mb-3">
+            {{ form.email }}
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
               {{ form.password1 }}
             </div>
-
-            <!-- Confirmación de contraseña -->
-            <div class="mb-3">
+            <div class="col-md-6 mb-3">
               {{ form.password2 }}
             </div>
+          </div>
 
-            <div class="mb-3">
-              <button type="submit" class="btn btn-primary w-100">Registrar</button>
-            </div>
+          <button type="submit" class="btn btn-custom w-100 py-2 rounded-3">Registrarse</button>
 
-            <div class="text-center">
-              <p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
-            </div>
-          </form>
-        </div>
+          <div class="text-center mt-3">
+            <p class="mb-0">¿Ya tienes cuenta? <a href="{% url 'login' %}" class="text-primary">Inicia sesión</a></p>
+          </div>
+        </form>
       </div>
     </div>
   </section>

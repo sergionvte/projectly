@@ -55,14 +55,12 @@
         <div class="border-bottom pb-3 pt-3 mb-3">
             <h5 class="text-secondary">👥 Equipo</h5>
             <p><strong>Integrantes:</strong> {{ project.team.members.count }}</p>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush rounded-4">
                 {% for member in project.team_assigned.members.all %}
                     <li class="list-group-item">{{ member.first_name }} {{ member.last_name }}</li>
                 {% endfor %}
             </ul>
         </div>
-
-
 
         <!-- Botones -->
         <div class="mt-3 text-center">
