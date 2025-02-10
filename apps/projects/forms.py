@@ -9,14 +9,6 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['title', 'goal', 'description', 'tutor', 'start_date', 'end_date']
-        # widgets = {
-        #     'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Project title', 'autofocus': True}),
-        #     'goal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Project goal'}),
-        #     'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Project description'}),
-        #     'tutor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tutor'}),
-        #     'start_date': forms.DateField(attrs={'class': 'form-control'}),
-        #     'end_date': forms.DateField(attrs={'class': 'form-control'}),
-        # }
 
 
     def __init__(self, *args, **kwargs):
@@ -37,7 +29,7 @@ class ProjectForm(forms.ModelForm):
 
 
     def save(self, user, commit=True):
-        team = user.team_assigned  # Obtiene el equipo del usuario
+        team = user.team_assigned
         if not team:
             raise ValueError("No perteneces a un equipo.")
 
@@ -49,6 +41,6 @@ class ProjectForm(forms.ModelForm):
         project.team_assigned = team
         if commit:
             project.save()
-            team.project_assigned = project  # Asigna el proyecto al equipo
+            team.project_assigned = project
             team.save()
         return project

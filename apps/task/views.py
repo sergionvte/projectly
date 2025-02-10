@@ -1,73 +1,82 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Task, Evidence
-from .forms import TaskForm, EvidenceForm
-from apps.accounts.models import User, Team
+from django.http import HttpResponseForbidden
+from .models import Task, Comment, Evidence
+from .forms import TaskForm, CommentForm, EvidenceForm
 
-# Vista para que el tutor asigne tareas
 @login_required
-def create_task(request, team_id):
-    team = get_object_or_404(Team, id=team_id)
+def task_list(request):
+    team = request.user.team_assigned
+    tasks = Task.objects.filter(team=team)
+    return render(request, 'tasks/task_list.html', {'tasks': tasks})
 
-    # Verificar que el usuario es tutor
-    if not request.user.is_tutor:
-        messages.error(request, "No tienes permisos para asignar tareas.")
-        return redirect("dashboard")
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if not task.can_user_access(request.user):
+        return HttpResponseForbidden("No tienes acceso a esta tarea.")
 
-    if request.method == "POST":
+    comments = task.comments.all()
+    evidence = task.evidences.all()
+    comment_form = CommentForm()
+    evidence_form = EvidenceForm()
+    return render(request, 'tasks/task_detail.html', {
+        'task': task,
+        'comments': comments,
+        'evidence': evidence,
+        'comment_form': comment_form,
+        'evidence_form': evidence_form
+    })
+
+@login_required
+def create_task(request):
+    if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.team = team
+            task.team = request.user.team_assigned
             task.save()
-            messages.success(request, "Tarea asignada exitosamente.")
-            return redirect("team_detail", team_id=team.id)
+            return redirect('task_list')
     else:
         form = TaskForm()
+    return render(request, 'tasks/task_form.html', {'form': form})
 
-    return render(request, "tasks/create_task.html", {"form": form, "team": team})
-
-# Vista para que los estudiantes vean sus tareas
 @login_required
-def student_tasks(request):
-    tasks = Task.objects.filter(assigned_to=request.user)
-    return render(request, "tasks/student_tasks.html", {"tasks": tasks})
-
-# Marcar tarea como completada
-@login_required
-def complete_task(request, task_id):
+def add_comment(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    if not task.can_user_access(request.user):
+        return HttpResponseForbidden("No tienes acceso a esta tarea.")
 
-    # Solo el estudiante asignado puede completar su tarea
-    if request.user != task.assigned_to:
-        messages.error(request, "No puedes marcar esta tarea como completada.")
-        return redirect("student_tasks")
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.user = request.user
+            comment.save()
+    return redirect('task_detail', task_id=task.id)
 
-    task.completed = True
-    task.save()
-    messages.success(request, "Tarea completada exitosamente.")
-    return redirect("student_tasks")
-
-# Subir evidencia
 @login_required
 def upload_evidence(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    if not task.can_user_access(request.user):
+        return HttpResponseForbidden("No tienes acceso a esta tarea.")
 
-    if request.user != task.assigned_to:
-        messages.error(request, "No puedes subir evidencia para esta tarea.")
-        return redirect("student_tasks")
-
-    if request.method == "POST":
+    if request.method == 'POST':
         form = EvidenceForm(request.POST, request.FILES)
         if form.is_valid():
             evidence = form.save(commit=False)
             evidence.task = task
             evidence.uploaded_by = request.user
             evidence.save()
-            messages.success(request, "Evidencia subida exitosamente.")
-            return redirect("student_tasks")
-    else:
-        form = EvidenceForm()
+    return redirect('task_detail', task_id=task.id)
 
-    return render(request, "tasks/upload_evidence.html", {"form": form, "task": task})
+@login_required
+def mark_task_complete(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if not task.can_user_access(request.user):
+        return HttpResponseForbidden("No tienes acceso a esta tarea.")
+
+    task.completed = True
+    task.save()
+    return redirect('task_detail', task_id=task.id)

@@ -80,7 +80,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Team(models.Model):
-    id = models.AutoField(primary_key=True)  # Se genera automáticamente, pero lo hacemos explícito
+    id = models.AutoField(primary_key=True)
     project_assigned = models.ForeignKey('projects.Project', on_delete=models.CASCADE, null=True)
     members = models.ManyToManyField(User, related_name='teams', blank=True)
     date_created = models.DateTimeField(auto_now_add=True)

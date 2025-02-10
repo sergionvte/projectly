@@ -53,11 +53,11 @@ class TeamForm(forms.ModelForm):
 
     def save(self, user, commit=True):
         team = super().save(commit=False)
-        team.created_by = user  # Asigna el usuario como creador
+        team.created_by = user
         if commit:
             team.save()
-            team.members.add(user)  # Añadir al usuario como miembro
-            user.team_assigned = team  # Asignar el equipo al usuario
+            team.members.add(user)
+            user.team_assigned = team
             user.save()
         return team
 

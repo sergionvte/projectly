@@ -1,6 +1,6 @@
-# Proyectly_v2
+# Proyectly
 
-Proyectly_v2 es una aplicación diseñada para gestionar proyectos de manera eficiente y colaborativa. Esta herramienta permite a los equipos organizar tareas, seguir el progreso y comunicarse de manera efectiva.
+Proyectly es una aplicación diseñada para gestionar proyectos de manera eficiente y colaborativa. Esta herramienta permite a los equipos organizar tareas, seguir el progreso y comunicarse de manera efectiva.
 
 ## Características
 

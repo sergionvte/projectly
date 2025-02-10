@@ -29,6 +29,9 @@
                 <a href="{% url 'join_team' %}" class="btn btn-secondary btn-sm">
                     <i class="bi bi-person-plus"></i> Unirse a un equipo
                 </a>
+                <a href="{% url 'create_team' %}" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-person-plus"></i> Crear un equipo
+                </a>
             {% endif %}
         </div>
 
@@ -44,6 +47,9 @@
                 </a>
             {% else %}
                 <p class="text-muted">Aún no tienes un proyecto asignado.</p>
+                <a href="{% url 'create_project' %}" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-person-plus"></i> Crear un proyecto
+                </a>
             {% endif %}
         </div>
     </div>

@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-r$a3uoc#_e+&8!8-h2!e+gn=qgx=82#!_(1%!ofs)wol%7bqs^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.100.197']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.100.204', '192.168.100.197']
 
 
 # Application definition
@@ -158,3 +158,4 @@ LOGOUT_REDIRECT_URL = ''
 from django.contrib.messages import constants as messages
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+

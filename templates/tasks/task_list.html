@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 800px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #eef1f6);">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-dark"><i class="bi bi-list-task"></i> Mis Tareas</h2>
+            <p class="text-muted">Lista de tareas asignadas a tu equipo.</p>
+            <hr>
+        </div>
+
+        <div class="mb-3 d-flex justify-content-end">
+            <a href="{% url 'create_task' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Nueva Tarea
+            </a>
+        </div>
+
+        <ul class="list-group">
+            {% for task in tasks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3 rounded-3 shadow-sm mb-2">
+                    <div>
+                        <a href="{% url 'task_detail' task.id %}" class="fw-bold text-dark">{{ task.title }}</a>
+                        <p class="text-muted mb-0">Fecha límite: {{ task.due_date|default:"No definida" }}</p>
+                    </div>
+                    <span class="badge bg-{{ 'success' if task.completed else 'warning' }}">
+                        {{ "Completada" if task.completed else "Pendiente" }}
+                    </span>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-center text-muted">No hay tareas disponibles.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

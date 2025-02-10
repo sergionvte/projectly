@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 800px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #eef1f6);">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-dark">{{ task.title }}</h2>
+            <p class="text-muted">{{ task.description }}</p>
+            <hr>
+        </div>
+
+        <div class="mb-3">
+            <p><strong>Asignado a:</strong> {{ task.assigned_to }}</p>
+            <p><strong>Fecha límite:</strong> {{ task.due_date|default:"No definida" }}</p>
+            <p><strong>Estado:</strong>
+                <span class="badge bg-{{ 'success' if task.completed else 'warning' }}">
+                    {{ "Completada" if task.completed else "Pendiente" }}
+                </span>
+            </p>
+            {% if not task.completed %}
+                <form action="{% url 'mark_task_complete' task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle"></i> Marcar como Completada</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <h4 class="text-primary"><i class="bi bi-chat-left-text"></i> Comentarios</h4>
+        <ul class="list-group mb-3">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hay comentarios aún.</li>
+            {% endfor %}
+        </ul>
+
+        <form method="post" action="{% url 'add_comment' task.id %}" class="mb-4">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Agregar Comentario</button>
+        </form>
+
+        <hr>
+
+        <h4 class="text-success"><i class="bi bi-folder2-open"></i> Evidencias</h4>
+        <ul class="list-group mb-3">
+            {% for evidence in evidence %}
+                <li class="list-group-item">
+                    <a href="{{ evidence.file.url }}" target="_blank">Archivo {{ forloop.counter }}</a>
+                    <small class="text-muted">Subido por {{ evidence.uploaded_by.username }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hay evidencias aún.</li>
+            {% endfor %}
+        </ul>
+
+        <form method="post" action="{% url 'upload_evidence' task.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ evidence_form.as_p }}
+            <button type="submit" class="btn btn-secondary"><i class="bi bi-upload"></i> Subir Archivo</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

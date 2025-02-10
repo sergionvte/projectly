@@ -47,7 +47,7 @@ def create_team(request):
     if request.method == 'POST':
         form = TeamForm(request.POST)
         if form.is_valid():
-            team = form.save(request.user)  # Llamamos al método que ya corrige el problema
+            team = form.save(request.user)
             messages.success(request, f"Equipo {team.team_code} creado exitosamente.")
             return redirect('dashboard')
     else:
@@ -66,11 +66,9 @@ def join_team(request):
         team_code = request.POST.get('team_code')
         team = get_object_or_404(Team, team_code=team_code)
 
-        # Agregar el usuario al equipo de forma segura
         request.user.team_assigned = team
         request.user.save(update_fields=['team_assigned'])
 
-        # Añadir al usuario a la lista de miembros del equipo
         team.members.add(request.user)
         messages.success(request, f"Te uniste exitosamente al equipo {team.team_code}.")
         return redirect('dashboard')
@@ -85,7 +83,7 @@ from .models import Team, User
 @login_required
 def team_detail(request, id):
     if not request.user.team_assigned:
-        return redirect('dashboard')  # Si el usuario no tiene equipo, redirigir al dashboard
+        return redirect('dashboard')
 
     team = get_object_or_404(Team, id=id)  # Busca por ID en lugar de team_code
     return render(request, 'accounts/team_detail.html', {'team': team})
@@ -95,12 +93,11 @@ def remove_member(request, team_id, member_id):
     team = get_object_or_404(Team, id=team_id)
     member = get_object_or_404(User, id=member_id)
 
-    # Asegúrate de que el usuario logueado sea el líder del equipo
     if team.created_by == request.user:
         if member in team.members.all():
-            team.members.remove(member)  # Elimina al miembro del equipo
-            member.team_assigned = None  # Elimina el equipo asignado al miembro
-            member.save(update_fields=['team_assigned'])  # Guarda el cambio en el miembro
+            team.members.remove(member)
+            member.team_assigned = None
+            member.save(update_fields=['team_assigned'])
             messages.success(request, f"El miembro {member.first_name} {member.last_name} ha sido eliminado exitosamente.")
 
         else:
