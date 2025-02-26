@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Tasks{% endblock title %}
+
 {% block content %}
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 800px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #eef1f6);">
@@ -9,11 +11,13 @@
             <hr>
         </div>
 
+        {% if request.user == user.team_assigned.created_by %}
         <div class="mb-3 d-flex justify-content-end">
-            <a href="{% url 'create_task' %}" class="btn btn-primary">
+            <a href="{% url 'create_task' %}" class="btn btn-primary form-control">
                 <i class="bi bi-plus-circle"></i> Nueva Tarea
             </a>
         </div>
+        {% endif %}
 
         <ul class="list-group">
             {% for task in tasks %}
@@ -22,8 +26,13 @@
                         <a href="{% url 'task_detail' task.id %}" class="fw-bold text-dark">{{ task.title }}</a>
                         <p class="text-muted mb-0">Fecha límite: {{ task.due_date|default:"No definida" }}</p>
                     </div>
-                    <span class="badge bg-{{ 'success' if task.completed else 'warning' }}">
-                        {{ "Completada" if task.completed else "Pendiente" }}
+
+                    <span class="badge bg-{% if task.completed %}success{% else %}warning{% endif %}">
+                        {% if task.completed %}
+                        Completada
+                        {% else %}
+                        Pendiente
+                        {% endif %}
                     </span>
                 </li>
             {% empty %}

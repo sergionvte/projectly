@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         choices=[
             ('admin', 'Admin'),
             ('user', 'User'),
-            ('moderator', 'Moderator'),
+            ('manager', 'Manager'),
         ],
         default='user'
     )
@@ -90,7 +90,7 @@ class Team(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.created_by and self.created_by not in self.members.all():
-            self.members.add(self.created_by)  # Agrega automáticamente al creador
+            self.members.add(self.created_by)  # Add automatically the creator to the team
 
     def __str__(self):
         return f"Team {self.id}"

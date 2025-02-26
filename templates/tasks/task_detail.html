@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Task detail: {{ task.title }}{% endblock title %}
+
 {% block content %}
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 800px; width: 100%; background: linear-gradient(135deg, #f8f9fa, #eef1f6);">
@@ -13,14 +15,14 @@
             <p><strong>Asignado a:</strong> {{ task.assigned_to }}</p>
             <p><strong>Fecha límite:</strong> {{ task.due_date|default:"No definida" }}</p>
             <p><strong>Estado:</strong>
-                <span class="badge bg-{{ 'success' if task.completed else 'warning' }}">
-                    {{ "Completada" if task.completed else "Pendiente" }}
+                <span class="badge bg-{%if task.completed %}success{% else %}warning{% endif %}">
+                    {%if task.completed %}Completada{% else %}Warning{% endif %}
                 </span>
             </p>
             {% if not task.completed %}
                 <form action="{% url 'mark_task_complete' task.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle"></i> Marcar como Completada</button>
+                    <button type="submit" class="btn btn-success form-control"><i class="bi bi-check2-circle"></i> Marcar como Completada</button>
                 </form>
             {% endif %}
         </div>
@@ -38,10 +40,11 @@
             {% endfor %}
         </ul>
 
+
         <form method="post" action="{% url 'add_comment' task.id %}" class="mb-4">
             {% csrf_token %}
             {{ comment_form.as_p }}
-            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Agregar Comentario</button>
+            <button type="submit" class="btn btn-primary form-control"><i class="bi bi-send"></i> Agregar Comentario</button>
         </form>
 
         <hr>
@@ -61,7 +64,7 @@
         <form method="post" action="{% url 'upload_evidence' task.id %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{ evidence_form.as_p }}
-            <button type="submit" class="btn btn-secondary"><i class="bi bi-upload"></i> Subir Archivo</button>
+            <button type="submit" class="btn btn-secondary form-control"><i class="bi bi-upload"></i> Subir Archivo</button>
         </form>
     </div>
 </div>

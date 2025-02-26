@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-r$a3uoc#_e+&8!8-h2!e+gn=qgx=82#!_(1%!ofs)wol%7bqs^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'projectly.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'projectly.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -158,4 +158,3 @@ LOGOUT_REDIRECT_URL = ''
 from django.contrib.messages import constants as messages
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
-

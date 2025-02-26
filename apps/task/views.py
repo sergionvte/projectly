@@ -67,7 +67,7 @@ def upload_evidence(request, task_id):
         if form.is_valid():
             evidence = form.save(commit=False)
             evidence.task = task
-            evidence.uploaded_by = request.user
+            evidence.uploaded_by = request.use
             evidence.save()
     return redirect('task_detail', task_id=task.id)
 

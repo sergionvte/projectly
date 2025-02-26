@@ -6,9 +6,9 @@ from .views import (
 
 urlpatterns = [
     path('', task_list, name='task_list'),
-    path('<int:pk>/', task_detail, name='task_detail'),
+    path('<int:task_id>/', task_detail, name='task_detail'),
     path('new-task/', create_task, name='create_task'),
-    path('<int:pk>/completar/', mark_task_complete, name='mark_task_complete'),
-    path('<int:pk>/comentario/', add_comment, name='add_comment'),
-    path('<int:pk>/subir-evidencia/', upload_evidence, name='upload_evidence'),
+    path('<int:task_id>/completar/', mark_task_complete, name='mark_task_complete'),
+    path('<int:task_id>/comentario/', add_comment, name='add_comment'),
+    path('<int:task_id>/subir-evidencia/', upload_evidence, name='upload_evidence'),
 ]
