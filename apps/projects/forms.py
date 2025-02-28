@@ -9,23 +9,31 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['title', 'goal', 'description', 'tutor', 'start_date', 'end_date']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'goal': forms.Textarea(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'tutor': forms.TextInput(attrs={'class': 'form-control'}),
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Project title'})
-        self.fields['goal'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Project goal'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Project description'})
-        self.fields['tutor'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Tutor'})
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
+        self.fields['goal'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['tutor'].widget.attrs.update({'class': 'form-control'})
         self.fields['start_date'].widget.attrs.update({'class': 'form-control'})
         self.fields['end_date'].widget.attrs.update({'class': 'form-control'})
 
-        self.fields['title'].label = ''
-        self.fields['goal'].label = ''
-        self.fields['description'].label = ''
-        self.fields['tutor'].label = ''
-        self.fields['start_date'].label = ''
-        self.fields['end_date'].label = ''
+        self.fields['title'].label = 'Project title'
+        self.fields['goal'].label = 'Project goal'
+        self.fields['description'].label = 'Project description'
+        self.fields['tutor'].label = 'Project tutor'
+        self.fields['start_date'].label = 'Start date'
+        self.fields['end_date'].label = 'End date'
 
 
     def save(self, user, commit=True):

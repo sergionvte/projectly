@@ -9,12 +9,17 @@ def dashboard(request):
     project = Project.objects.filter(
         created_by__email=request.user.email
     ).first()
+    tasks = Task.objects.filter(
+        assigned_to=request.user, completed=False
+    )
     return render(
         request,
         'dashboard/dashboard.html',
-        {'project': project}
+        {
+            'project': project,
+            'tasks': tasks,
+        }
     )
-
 
 from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect

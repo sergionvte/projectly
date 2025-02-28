@@ -31,14 +31,15 @@ def task_detail(request, task_id):
 @login_required
 def create_task(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, user=request.user)  # 🔹 Pasar el usuario aquí
         if form.is_valid():
             task = form.save(commit=False)
             task.team = request.user.team_assigned
             task.save()
             return redirect('task_list')
     else:
-        form = TaskForm()
+        form = TaskForm(user=request.user)  # 🔹 Y aquí también
+
     return render(request, 'tasks/task_form.html', {'form': form})
 
 @login_required
