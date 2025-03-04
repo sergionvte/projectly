@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from ..accounts.models import User
+import numpy as np
 
 # Create your models here.
 class Project(models.Model):
@@ -18,10 +19,10 @@ class Project(models.Model):
     project_url = models.CharField(max_length=100, null=True, blank=True)
     project_tiktok = models.CharField(max_length=100, null=True, blank=True)
     project_instagram = models.CharField(max_length=100, null=True, blank=True)
+    embedding = models.BinaryField(null=True, blank=True)
 
     def __str__(self):
         return self.title
-
 
 class Comment(models.Model):
     author = models.CharField(max_length=50)

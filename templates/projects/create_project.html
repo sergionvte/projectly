@@ -2,11 +2,55 @@
 
 {% block content %}
 <div class="container mt-5">
-<h2>Crear Proyecto</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary w-100 mb-5"><i class="bi bi-check2-circle"></i>Crear</button>
-</form>
+    <h2>Crear Proyecto</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div id="similar-projects"></div>
+        <button type="submit" class="btn btn-primary w-100 mb-5">
+            <i class="bi bi-check2-circle"></i> Crear
+        </button>
+    </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#id_title, #id_description").on("input", function() {
+            var title = $("#id_title").val();
+            var description = $("#id_description").val();
+
+            if (title.length > 5 && description.length > 10) {
+                $.ajax({
+                    url: "{% url 'check_project_similarity' %}",
+                    type: "POST",
+                    contentType: "application/json",
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                    data: JSON.stringify({ title: title, description: description }),
+                    success: function(response) {
+                        $("#similar-projects").empty();
+                        if (response.similar_projects.length > 0) {
+                            $("#similar-projects").append("<h5>Proyectos similares encontrados:</h5>");
+                            response.similar_projects.forEach(function(proj) {
+                                $("#similar-projects").append(
+                                    `<div class='alert alert-warning'>
+                                        <strong>${proj.title}</strong> (Similitud: ${proj.similarity}%)
+                                    </div>`
+                                );
+                            });
+                        } else {
+                            $("#similar-projects").html("<div class='alert alert-success'>No hay proyectos similares.</div>");
+                        }
+                    },
+                    error: function() {
+                        $("#similar-projects").html("<div class='alert alert-danger'>Error al verificar la similitud.</div>");
+                    }
+                });
+            } else {
+                $("#similar-projects").empty();
+            }
+        });
+    });
+</script>
 {% endblock %}

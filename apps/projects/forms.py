@@ -1,9 +1,8 @@
 from django import forms
 from .models import Project
+from .services import get_embedding
 
 # Create your views here.
-from django import forms
-from .models import Project
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -47,6 +46,11 @@ class ProjectForm(forms.ModelForm):
         project = super().save(commit=False)
         project.created_by = user
         project.team_assigned = team
+
+        # Generar embedding del título y descripción
+        text = f"{self.cleaned_data['title']} {self.cleaned_data['description']}"
+        project.embedding = get_embedding(text)
+
         if commit:
             project.save()
             team.project_assigned = project

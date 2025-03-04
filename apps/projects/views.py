@@ -48,3 +48,30 @@ def project_edit(request, project_id):
         form = ProjectForm(instance=project)
 
     return render(request, 'projects/project_edit.html', {'form': form, 'project': project})
+
+
+# API de verificacion
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .services import find_similar_projects
+
+@csrf_exempt
+def check_project_similarity(request):
+    """Verifica si un proyecto tiene similitud con otro en la BD."""
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            title = data.get("title", "")
+            description = data.get("description", "")
+
+            if not title or not description:
+                return JsonResponse({"error": "Se requieren título y descripción."}, status=400)
+
+            similar_projects = find_similar_projects(title, description, threshold=0.8)
+
+            return JsonResponse({"similar_projects": similar_projects})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Método no permitido"}, status=405)
