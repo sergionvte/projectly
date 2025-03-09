@@ -9,7 +9,7 @@ def get_embedding(text):
     # Convertir el texto a un vector numerico
     return model.encode(text).astype(np.float32).tobytes()
 
-def find_similar_projects(title, description, threshold=0.8):
+def find_similar_projects(title, description, threshold=0.7):
     # Busca proyectos similares en la BD usando similitud coseno
     new_text = f"{title} {description}"
     new_vector = np.frombuffer(get_embedding(new_text), dtype=np.float32)
