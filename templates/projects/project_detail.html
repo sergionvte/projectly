@@ -64,7 +64,9 @@
 
         <!-- Botones -->
         <div class="mt-3 text-center">
-            <button id="download-project" class="btn btn-outline-success btn-sm mb-2">Descargar resumen</button>
+            {% comment %} <button id="download-project" class="btn btn-outline-success btn-sm mb-2">Descargar resumen</button> {% endcomment %}
+            <a href="{% url 'download_project' project.id %}" class="btn btn-outline-success btn-sm mb-2">Descargar resumen</a>
+            <a href="{% url 'project_edit' project.id %}" class="btn btn-outline-secondary btn-sm mb-2">Editar</a>
             <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm mb-2">Volver</a>
         </div>
     </div>

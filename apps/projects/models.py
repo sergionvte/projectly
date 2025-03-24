@@ -5,12 +5,20 @@ import numpy as np
 
 # Create your models here.
 class Project(models.Model):
+    PHASE_CHOICES = {
+        1: 'Planeación',
+        2: 'Desarrollo',
+        3: 'Pruebas',
+        4: 'Presentación',
+        5: 'Concluido'
+    }
+
     is_active = models.BooleanField(default=True)
     title = models.CharField(max_length=50)
     goal = models.TextField(null=True)
     description = models.TextField()
     tutor = models.CharField(max_length=50)
-    project_phase = models.IntegerField(default=0)
+    project_phase = models.IntegerField(choices=PHASE_CHOICES.items(), default=1)
     created_at = models.DateTimeField(default=datetime.now)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     team_assigned = models.OneToOneField('accounts.Team', on_delete=models.CASCADE, null=True, blank=True)

@@ -48,7 +48,7 @@ def create_team(request):
         form = TeamForm(request.POST)
         if form.is_valid():
             team = form.save(request.user)
-            messages.success(request, f"Equipo {team.team_code} creado exitosamente.")
+            messages.success(request, f"El equipo {team.id} fue creado exitosamente.")
             return redirect('dashboard')
     else:
         form = TeamForm()

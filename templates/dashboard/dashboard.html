@@ -35,6 +35,7 @@
             {% endif %}
         </div>
 
+        {% if user.team_assigned %}
         <!-- Información del Proyecto -->
         <div class="mb-4">
             <h5 class="text-success fw-bold"><i class="bi bi-kanban-fill"></i> Proyecto asignado</h5>
@@ -55,7 +56,7 @@
 
         <!-- Sección de Tareas Pendientes -->
         <div>
-            <h5 class="text-warning fw-bold"><i class="bi bi-list-task"></i> Tareas Pendientes</h5>
+            <h5 class="text-warning fw-bold"><i class="bi bi-list-task"></i> Tareas pendientes</h5>
             {% if tasks %}
                 <ul class="list-group mb-3">
                     {% for task in tasks %}
@@ -71,6 +72,7 @@
                 <p class="text-muted">No tienes tareas pendientes. ¡Bien hecho! 🎉</p>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

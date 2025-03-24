@@ -5,27 +5,30 @@ from .models import User, Team
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'email', 'username', 'career', 'password1', 'password2']
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'First Name', 'autofocus': True}),
-            'last_name': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Last Name'}),
-            'email': forms.EmailInput(attrs={'class': 'auth-form-control', 'placeholder': 'Email'}),
-            'username': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Username'}),
+            'Nombre': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Nombre', 'autofocus': True}),
+            'Apellido': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Apellido'}),
+            'Email': forms.EmailInput(attrs={'class': 'auth-form-control', 'placeholder': 'Email'}),
+            'Nombre de usuario': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Nombre de usuario'}),
+            'Carrera': forms.TextInput(attrs={'class': 'auth-form-control', 'placeholder': 'Carrera'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'First name'})
-        self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Last name'})
-        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
-        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Username'})
-        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirm Password'})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre', 'autofocus': True})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Apellido'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email', 'autofocus': False})
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre de usuario'})
+        self.fields['career'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Carrera'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Contraseña'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
 
         self.fields['first_name'].label = ''
         self.fields['last_name'].label = ''
         self.fields['email'].label = ''
         self.fields['username'].label = ''
+        self.fields['career'].label = ''
         self.fields['password1'].label = ''
         self.fields['password2'].label = ''
 
@@ -49,7 +52,7 @@ class LoginForm(AuthenticationForm):
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ['team_code']
+        fields = []
 
     def save(self, user, commit=True):
         team = super().save(commit=False)

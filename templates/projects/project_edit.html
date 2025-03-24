@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Edit Project - {{ project.title }}
+  Editando proyecto - {{ project.title }}
 {% endblock %}
 
 {% block content %}
@@ -9,15 +9,14 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h1>Edit Project</h1>
+        <h1>Editar Proyecto</h1>
 
         <form method="POST">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-success">Save Changes</button>
+          <button type="submit" class="btn btn-success my-2 form-control">Guardar cambios</button>
+          <a class="btn btn-secondary my-2 form-control" href="{% url 'project_detail' project.id %}">Cancelar</a>
         </form>
-
-        <a class="btn btn-secondary" href="{% url 'project_detail' project.id %}">Cancel</a>
       </div>
     </div>
   </div>

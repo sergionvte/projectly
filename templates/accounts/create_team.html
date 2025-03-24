@@ -5,8 +5,9 @@
 <h2>Crear Equipo</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Crear</button>
+    <p>Estás a punto de crear un equipo, si deseas continuar, pulsa en el botón de Crear debajo, en caso contrario, pulsa Cancelar.</p>
+    <button type="submit" class="btn btn-primary form-control">Crear</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary my-2 form-control">Cancelar</a>
 </form>
 </div>
 {% endblock %}
