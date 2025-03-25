@@ -29,12 +29,9 @@ PORT = os.getenv("PORT", "8000")
 
 ALLOWED_HOSTS = ["*"]  # Esto es solo para pruebas, luego configúralo bien
 
-# Mejor forma de agregar el hostname de Render si existe
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-
-
 
 # Application definition
 
