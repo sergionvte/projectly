@@ -39,7 +39,7 @@
 <script>
     const teamId = "{{ team.id }}";
     const userId = "{{ request.user.id }}";
-    const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/${teamId}/`);
+    const chatSocket = new WebSocket(`wss://${window.location.host}/ws/chat/${teamId}/`);
 
     chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
