@@ -27,7 +27,7 @@ DEBUG = 'RENDER' not in os.environ
 
 PORT = os.getenv("PORT", "8000")
 
-ALLOWED_HOSTS = ["*"]  # Esto es solo para pruebas, luego configúralo bien
+ALLOWED_HOSTS = ["*", '52.41.36.82', '54.191.253.12', '44.226.122.3']  # Esto es solo para pruebas, luego configúralo bien
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
