@@ -10,8 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from pathlib import Path
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUD_NAME', 'test'),
+    api_key=os.getenv('CLOUDINARY_API_KEY', 'test'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET', 'test')
+)
+
+DEFAULT_FIELD_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

@@ -33,6 +33,9 @@ class ProjectForm(forms.ModelForm):
         self.fields['start_date'].label = 'Fecha de inicio'
         self.fields['end_date'].label = 'Fecha de finalización'
         self.fields['project_phase'].label = 'Fase del proyecto'
+        self.fields['project_url'].label = 'URL/Repositorio del proyecto'
+        self.fields['project_tiktok'].label = 'Video de presentación'
+        self.fields['project_instagram'].label = 'Instagram del proyecto'
 
     def save(self, user, commit=True):
         team = user.team_assigned
