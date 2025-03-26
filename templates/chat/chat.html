@@ -16,7 +16,7 @@
                         {% if message.file|lower|slice:'-4:' in ".jpg,.png,.jpeg,.gif,.webp" %}
                             <img src="{{ message.file.url }}" alt="Imagen enviada" class="img-fluid mt-2 rounded" style="max-width: 100%; height: auto;">
                         {% else %}
-                        <a href="{{ message.file.url }}" target="_blank" class="d-block mt-2 text-black">
+                        <a href="{% get_media_prefix %}{{ message.file }}" target="_blank" class="d-block mt-2 text-black">
                             📎 Descargar archivo
                         </a>
                         {% endif %}
