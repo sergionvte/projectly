@@ -88,9 +88,17 @@ class Team(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_teams', null=True)
 
     def save(self, *args, **kwargs):
+        if not self.team_code:  # Generar un código solo si no existe
+            while True:
+                new_code = get_random_string(10).lower()
+                if not Team.objects.filter(team_code=new_code).exists():
+                    self.team_code = new_code
+                    break
+
         super().save(*args, **kwargs)
+
         if self.created_by and self.created_by not in self.members.all():
-            self.members.add(self.created_by)  # Add automatically the creator to the team
+            self.members.add(self.created_by)
 
     def __str__(self):
         return f"Team {self.id}"
