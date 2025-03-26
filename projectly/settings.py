@@ -162,26 +162,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
 # Static settings
-# Archivos estáticos
+import os
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Archivos de medios (uploads de usuarios)
+# Media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# Manejo de archivos en producción
-if not DEBUG:
-    # Render no sirve archivos de medios automáticamente, necesitas configurarlo
-    MEDIA_URL = f'https://{os.getenv("RENDER_EXTERNAL_HOSTNAME", "projectly.onrender.com")}/media/'
-
-# Redirecciones de autenticación
 LOGIN_REDIRECT_URL = '/dashboard'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = ''
+
 # Messages settings
 from django.contrib.messages import constants as messages
 
