@@ -84,7 +84,7 @@ class Team(models.Model):
     project_assigned = models.ForeignKey('projects.Project', on_delete=models.CASCADE, null=True)
     members = models.ManyToManyField(User, related_name='teams', blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    team_code = models.CharField(max_length=10, unique=True, default=get_random_string(10).lower())
+    team_code = models.CharField(max_length=10, unique=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_teams', null=True)
 
     def save(self, *args, **kwargs):
