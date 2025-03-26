@@ -97,6 +97,8 @@ def remove_member(request, team_id, member_id):
         if member in team.members.all():
             team.members.remove(member)
             member.team_assigned = None
+            team.members.remove(member)
+            team.save()
             member.save(update_fields=['team_assigned'])
             messages.success(request, f"El miembro {member.first_name} {member.last_name} ha sido eliminado exitosamente.")
 
