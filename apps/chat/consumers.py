@@ -3,7 +3,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from django.core.files.base import ContentFile
 import base64
-from django.conf import settings
 from .models import Message
 from apps.accounts.models import User, Team
 
@@ -57,10 +56,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "type": "chat_message",
                     "sender": sender.username,
                     "content": content,
-                    "file": settings.MEDIA_URL + message.file.name if message.file else None,
+                    "file": message.file.url if message.file else None,
                     "timestamp": str(message.timestamp),
                 }
-)
+            )
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
