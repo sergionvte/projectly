@@ -16,7 +16,7 @@
             <p><strong>Fecha límite:</strong> {{ task.due_date|default:"No definida" }}</p>
             <p><strong>Estado:</strong>
                 <span class="badge bg-{%if task.completed %}success{% else %}warning{% endif %}">
-                    {%if task.completed %}Completada{% else %}Warning{% endif %}
+                    {%if task.completed %}Completada{% else %}Incompleta{% endif %}
                 </span>
             </p>
             {% if not task.completed and task.assigned_to.email == user.email %}
