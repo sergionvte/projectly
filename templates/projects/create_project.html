@@ -24,7 +24,7 @@
             var description = $("#id_description").val();
             var goal = $("#id_goal").val();
 
-            if (title.length > 5 && description.length > 10) {
+            if (title.length > 5 && description.length > 10 && goal.length > 10) {
                 $.ajax({
                     url: "{% url 'check_project_similarity' %}",
                     type: "POST",
