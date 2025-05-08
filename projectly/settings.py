@@ -15,6 +15,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from pathlib import Path
+import dj_database_url
 
 cloudinary.config(
     cloud_name=os.getenv('CLOUD_NAME', 'test'),
@@ -111,19 +112,23 @@ WSGI_APPLICATION = 'projectly.wsgi.application'
 
 RENDER = os.environ.get("RENDER") == True
 
-if RENDER:
-    os.makedirs("/data", exist_ok=True)
-    DB_PATH = "/data/db.sqlite3"
-else:
+if not RENDER:
     DB_PATH = BASE_DIR / "db.sqlite3"
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_PATH,
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+if RENDER:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get("DATABASE_URL")
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': DB_PATH,
+            # 'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
