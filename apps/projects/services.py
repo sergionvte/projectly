@@ -9,12 +9,12 @@ def get_embedding(text):
     # Convertir el texto a un vector numerico
     return model.encode(text).astype(np.float32).tobytes()
 
-def find_similar_projects(title, description, threshold=0.7):
+def find_similar_projects(title, goal, description, threshold=0.7):
     # Busca proyectos similares en la BD usando similitud coseno
-    new_text = f"{title} {description}"
+    new_text = f"{title} {goal} {description}"
     new_vector = np.frombuffer(get_embedding(new_text), dtype=np.float32)
 
-    projects = Project.objects.exclude(embedding=None).values("id", "title", "description", "embedding")
+    projects = Project.objects.exclude(embedding=None).values("id", "title", "goal", "description", "embedding")
     similarities = []
 
     for project in projects:
@@ -25,8 +25,8 @@ def find_similar_projects(title, description, threshold=0.7):
             similarities.append({
                 "id": project["id"],
                 "title": project["title"],
-                "description": project["description"],
                 "goal": project["goal"],
+                "description": project["description"],
                 "similarity": round(similarity * 100, 2)
             })
 

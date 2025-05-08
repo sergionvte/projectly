@@ -64,7 +64,14 @@
         }
     }
 
-    messageContent += `<small class="text-muted" style="font-size: 0.8rem;">${data.timestamp}</small></div>`;
+    const date = new Date(data.timestamp);
+    const formattedTime = date.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    messageContent += `<small class="text-muted" style="font-size: 0.8rem;">${formattedTime}</small></div>`;
 
     messageDiv.innerHTML = messageContent;
     chatBox.appendChild(messageDiv);

@@ -27,4 +27,6 @@ urlpatterns = [
     path('projects/', include('apps.projects.urls')),
     path('task/', include('apps.task.urls')),
     path('', include('apps.chat.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

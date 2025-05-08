@@ -120,12 +120,13 @@ def check_project_similarity(request):
         try:
             data = json.loads(request.body)
             title = data.get("title", "")
+            goal = data.get("goal", "")
             description = data.get("description", "")
 
             if not title or not description:
                 return JsonResponse({"error": "Se requieren título y descripción."}, status=400)
 
-            similar_projects = find_similar_projects(title, description, threshold=0.8)
+            similar_projects = find_similar_projects(title, goal, description, threshold=0.8)
 
             return JsonResponse({"similar_projects": similar_projects})
         except Exception as e:
