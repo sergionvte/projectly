@@ -9,6 +9,11 @@ export DJANGO_SETTINGS_MODULE="projectly.settings"
 export CLOUD_NAME='dngcfjybb'
 export CLOUDINARY_API_KEY='252969854163175'
 export CLOUDINARY_API_SECRET='GFD9tlW39PFVkk3LH-_YZN5Gmjo'
+export RENDER=True
+
+if [ "$RENDER" = "True" ]; then
+    mkdir -p /var/data
+fi
 
 python manage.py collectstatic --noinput
 python manage.py migrate

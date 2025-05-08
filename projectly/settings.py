@@ -109,10 +109,20 @@ WSGI_APPLICATION = 'projectly.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+if os.environ.get("RENDER"):
+    DB_PATH = "/var/data/db.sqlite3"
+else:
+    DB_PATH = BASE_DIR / "data" / "db.sqlite3"
+
+# Nos aseguramos que la carpeta exista (solo en local)
+if not os.environ.get("RENDER"):
+    os.makedirs(BASE_DIR / "data", exist_ok=True)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(DB_PATH),
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
