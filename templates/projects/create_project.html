@@ -22,6 +22,7 @@
         $("#id_title, #id_description").on("input", function() {
             var title = $("#id_title").val();
             var description = $("#id_description").val();
+            var goal = $("#id_goal").val();
 
             if (title.length > 5 && description.length > 10) {
                 $.ajax({
@@ -29,7 +30,7 @@
                     type: "POST",
                     contentType: "application/json",
                     headers: { "X-CSRFToken": "{{ csrf_token }}" },
-                    data: JSON.stringify({ title: title, description: description }),
+                    data: JSON.stringify({ title: title, description: description, goal: goal }),
                     success: function(response) {
                         $("#similar-projects").empty();
                         if (response.similar_projects.length > 0) {

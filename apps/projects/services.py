@@ -26,6 +26,7 @@ def find_similar_projects(title, description, threshold=0.7):
                 "id": project["id"],
                 "title": project["title"],
                 "description": project["description"],
+                "goal": project["goal"],
                 "similarity": round(similarity * 100, 2)
             })
 
