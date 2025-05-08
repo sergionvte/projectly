@@ -114,14 +114,10 @@ if os.environ.get("RENDER"):
 else:
     DB_PATH = BASE_DIR / "data" / "db.sqlite3"
 
-# Nos aseguramos que la carpeta exista (solo en local)
-if not os.environ.get("RENDER"):
-    os.makedirs(BASE_DIR / "data", exist_ok=True)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(DB_PATH),
+        'NAME': DB_PATH,
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
