@@ -12,4 +12,3 @@ export CLOUDINARY_API_SECRET='GFD9tlW39PFVkk3LH-_YZN5Gmjo'
 export RENDER=True
 
 python manage.py collectstatic --noinput
-python manage.py migrate
