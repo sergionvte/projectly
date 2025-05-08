@@ -179,8 +179,12 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media settings
-MEDIA_URL = '/var/data/media/'
-MEDIA_ROOT = BASE_DIR / '/var/data/media'
+if os.environ.get('RENDER'):
+    MEDIA_ROOT = '/var/data/media'
+else:
+    MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = ''
 
