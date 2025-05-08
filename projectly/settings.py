@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'projectly.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 if os.environ.get("RENDER"):
-    DB_PATH = "/var/data/db.sqlite3"
+    DB_PATH = "/data/db.sqlite3"
 else:
     DB_PATH = BASE_DIR / "data" / "db.sqlite3"
 

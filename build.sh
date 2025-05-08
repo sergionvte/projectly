@@ -12,7 +12,7 @@ export CLOUDINARY_API_SECRET='GFD9tlW39PFVkk3LH-_YZN5Gmjo'
 export RENDER=True
 
 if [ "$RENDER" = "True" ]; then
-    mkdir -p /var/data
+    mkdir -p /data
 fi
 
 python manage.py collectstatic --noinput
