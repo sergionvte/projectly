@@ -184,6 +184,8 @@ if os.environ.get('RENDER'):
 else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
+print("MEDIA_ROOT is set to:", MEDIA_ROOT)
+
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = ''
